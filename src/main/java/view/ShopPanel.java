@@ -304,23 +304,37 @@ public class ShopPanel extends JPanel implements Runnable{
             @Override
             public void keyReleased(KeyEvent e) {
 
+                int order_id = Integer.valueOf((String) stm.getValueAt(table.getSelectedRow(), 0));
+
+
                 String textname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 2);
                 String textsurname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 3);
-                System.out.println(stm.getValueAt(table.getSelectedRow(), 0));
+                String textphone = s.getPhoneByOrder(order_id);
 
 
                 textName.setText(textname.trim());
                 textSurname.setText(textsurname.trim());
-
-                int order_id = Integer.valueOf((String) stm.getValueAt(table.getSelectedRow(), 0));
+                textPhone.setText(textphone);
 
                 statusBox.setSelectedIndex((int) s.statusOrder(order_id) - 1);
 
                 List<OrdersItems> list = s.getProductsForOrder(order_id);
+                listOrderModel.clear();
+                order.clear();
 
                 for (int i = 0; i < list.size(); ++i) {
                     listOrderModel.addElement(list.get(i).getProduct().getTitle() + "   " + list.get(i).getProduct().getPrice() + "$   " + list.get(i).getQuantity() + " pcs");
+                    order.put(list.get(i).getProduct(), list.get(i).getQuantity());
                 }
+                totalSumm = 0;
+
+
+                Set<Map.Entry<Product, Integer>> set = order.entrySet();
+                for(Map.Entry<Product, Integer> me : set) {
+                    totalSumm += me.getKey().getPrice().doubleValue() * me.getValue();
+                }
+
+                tfSumm.setText(String.valueOf(totalSumm));
 
 
                 /*

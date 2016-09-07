@@ -8,10 +8,7 @@ import org.hibernate.SessionFactory;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Service implements ServiceInterface {
 
@@ -122,19 +119,25 @@ public class Service implements ServiceInterface {
         OrdersItemsDAOImpl oidi = new OrdersItemsDAOImpl();
 
         List <OrdersItems> ordersItemses = oidi.getAll();
-        List<OrdersItems> resultList = null;
+        List<OrdersItems> resultList = new ArrayList<OrdersItems>();
         int count = 0;
 
         for(int i = 0; i < ordersItemses.size(); ++i) {
             Long x = ordersItemses.get(i).getOrder().getId();
             if (x == id_order) {
-//                resultList.add(ordersItemses.get(i));
+                System.err.println(ordersItemses.get(i).getProduct().getTitle());
+                resultList.add(ordersItemses.get(i));
                 count++;
             }
         }
         System.err.println(count);
 
         return resultList;
+    }
+
+    public String getPhoneByOrder(int order_id) {
+        OrderDAOImpl odi = new OrderDAOImpl();
+        return odi.getById(order_id).getCustomer().getPhone();
     }
 
 
