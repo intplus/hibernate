@@ -13,7 +13,7 @@ public interface ServiceInterface {
 
     public void orders(Order order);
 
-    public int returnStatusBox(String str);
+    public long statusOrder(int order_id);
 
     public double countTotalPrice(Order order);
 

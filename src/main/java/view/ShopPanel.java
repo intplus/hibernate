@@ -18,21 +18,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
-import model.Order;
-import model.Product;
-import model.Customer;
-import model.Status;
+import model.*;
 import service.Service;
 
 
 public class ShopPanel extends JPanel implements Runnable{
 
    private ShopTableModel stm;
-//    private JTable shopTable = new JTable();
-//    private ConnectionJDBC connect;
 
-//    private Goods shop;
-//    private Purchase purchase;
     private Order o;
     private Service s;
     private Map<Product, Integer> order;
@@ -129,17 +122,11 @@ public class ShopPanel extends JPanel implements Runnable{
 
         final DefaultListModel listOrderModel = new DefaultListModel();
 
-//        if (order==null) {
-//
-//        } else {
             Set<Map.Entry<Product, Integer>> set = order.entrySet();
             for (Map.Entry<Product, Integer> me : set) {
                 listOrderModel.addElement(me.getKey().getTitle() + "   " + me.getValue() + " pcs");
-//                System.err.println(me.getKey().getTitle() + "   " + me.getValue() + " pcs");
                 totalSumm += me.getKey().getPrice().doubleValue() * me.getValue();
             }
-//        }
-
 
 
         final JList orderList = new JList(listOrderModel);
@@ -191,9 +178,6 @@ public class ShopPanel extends JPanel implements Runnable{
 
 //----------------------------------------------------------------------------------------------------------------------         
 
-//        s = new Service2();
-
-//        stm = new ShopTableModel();
         sorter = new TableRowSorter<ShopTableModel>(stm);
         final JTable table = new JTable(stm);
         table.setRowSorter(sorter);
@@ -319,40 +303,92 @@ public class ShopPanel extends JPanel implements Runnable{
 
             @Override
             public void keyReleased(KeyEvent e) {
-//                String textname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 2);
-//                String textsurname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 3);
-//                System.out.println(table.convertRowIndexToModel(table.getSelectedRow()));
-//                System.out.println(stm.getValueAt(table.getSelectedRow(), 0));
-//
-//                textName.setText(textname.trim());
-//                textSurname.setText(textsurname.trim());
-//
-//                String [][] items = new String[5][];
-//
-//                items = s.getOrder(Integer.valueOf((String)stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 0)));
-//
-//
-//                listOrderModel.clear();
-//                order.clear();
-//
-//                Product [] productsArrayUpdate = new Product[items.length];
-//
-//                for (int i = 0; i < items[0].length; ++i) {
-//                    productsArrayUpdate[i]  = new Product(Integer.valueOf(items[0][i]), Integer.valueOf(items[1][i]), items[2][i], Double.parseDouble(items[4][i].trim()));
+
+                String textname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 2);
+                String textsurname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 3);
+                System.out.println(stm.getValueAt(table.getSelectedRow(), 0));
+
+
+                textName.setText(textname.trim());
+                textSurname.setText(textsurname.trim());
+
+                int order_id = Integer.valueOf((String) stm.getValueAt(table.getSelectedRow(), 0));
+
+                statusBox.setSelectedIndex((int) s.statusOrder(order_id) - 1);
+
+                List<OrdersItems> list = s.getProductsForOrder(order_id);
+
+                for (int i = 0; i < list.size(); ++i) {
+                    listOrderModel.addElement(list.get(i).getProduct().getTitle() + "   " + list.get(i).getProduct().getPrice() + "$   " + list.get(i).getQuantity() + " pcs");
+                }
+
+
+                /*
+                Product p = s.getProducts(productsBox.getSelectedIndex()+1).get(id_goods -1);
+                int count = Integer.parseInt(tfCount.getText());
+
+                order.put(p, Integer.valueOf(count));
+                strName = textName.getText();
+
+                listOrderModel.addElement(p.getTitle() + "   " + p.getPrice() + "$   " + count + " pcs");
+                totalSumm = 0;
+
+                Set<Map.Entry<Product, Integer>> set = order.entrySet();
+                for(Map.Entry<Product, Integer> me : set) {
+                    totalSumm += me.getKey().getPrice().doubleValue() * me.getValue();
+                }
+
+                tfSumm.setText(String.valueOf(totalSumm));
+                 */
+
+
+
+              /*  String textname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 2);
+                String textsurname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 3);
+                System.out.println(table.convertRowIndexToModel(table.getSelectedRow()));
+                System.out.println(stm.getValueAt(table.getSelectedRow(), 0));
+
+                textName.setText(textname.trim());
+                textSurname.setText(textsurname.trim());
+
+                String [][] items = new String[5][];
+
+                items = s.getOrder(
+                        Integer.valueOf((String)
+                                stm.getValueAt(
+                                        table.convertRowIndexToModel
+                                                (table.getSelectedRow()),
+                                        0)));
+
+
+                listOrderModel.clear();
+                order.clear();
+
+                Product [] productsArrayUpdate = new Product[items.length];
+
+                for (int i = 0; i < items[0].length; ++i) {
+                    productsArrayUpdate[i] = new Product();
+                    productsArrayUpdate[i].
+//                    productsArrayUpdate[i]  =
+//                            new Product(Integer.valueOf(items[0][i]),
+//                                    Integer.valueOf(items[1][i]),
+//                                    items[2][i],
+//                                    Double.parseDouble(items[4][i].trim()));
 //                    listOrderModel.addElement(productsArrayUpdate[i].getTitle().trim() + "   " + productsArrayUpdate[i].getPrice() + "$   " + items[3][i].trim() + " pcs");
 //                    order.put(productsArrayUpdate[i], Integer.valueOf(items[3][i].trim()));
-//
-//                }
-//                String str = (String)stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 5);
-//
-//                statusBox.setSelectedIndex(s.returnStatusBox(str));
-//
-//                totalSumm = 0;
-//                Set<Map.Entry<Product, Integer>> set = order.entrySet();
-//                for(Map.Entry<Product, Integer> me : set) {
-//                    totalSumm += me.getKey().getPrice().doubleValue() * me.getValue();
-//                }
-//                tfSumm.setText(Double.toString(totalSumm));
+
+                }
+                String str = (String)stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 5);
+
+                statusBox.setSelectedIndex(s.returnStatusBox(str));
+
+                totalSumm = 0;
+                Set<Map.Entry<Product, Integer>> set = order.entrySet();
+                for(Map.Entry<Product, Integer> me : set) {
+                    totalSumm += me.getKey().getPrice().doubleValue() * me.getValue();
+                }
+                tfSumm.setText(Double.toString(totalSumm));
+                */
 
             }
         });

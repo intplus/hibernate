@@ -14,16 +14,6 @@ public class Main {
 
         Map<Product, Integer> order = new HashMap<Product, Integer>() ;
         new ShopUI(order);
-//        ProductCategoryDAOImpl pcdi = new ProductCategoryDAOImpl();
-//
-//        List<ProductCategory> pc = pcdi.getAll();
-//        String []productsItems = new String[pc.size()];
-//        for(int i = 0; i < pc.size(); ++i) {
-//            productsItems[i] = pc.get(i).getTitle();
-//        }
-//        for(int i = 0; i < productsItems.length; ++i) {
-//            System.out.println(productsItems[i]);
-//        }
 
     }
 }

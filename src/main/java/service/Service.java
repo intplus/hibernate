@@ -29,16 +29,33 @@ public class Service implements ServiceInterface {
     public String[][] getOrder(int order_id) {
 
         String [][] items = {};
-        List<ProductCategory> pc = null;
+        StatusOrdersDAOImpl sodi = new StatusOrdersDAOImpl();
+        OrderDAOImpl odi = new OrderDAOImpl();
 
-        ProductDAOImpl pdi = new ProductDAOImpl();
-        ProductCategoryDAOImpl pcdi = new ProductCategoryDAOImpl();
-        pdi.getAll();
-        pcdi.getAll();
+        Order order = odi.getById(order_id);
+        long i = order.getStatus().getId();
+//        return sodi.getById((int) i);
+//        List<ProductCategory> pc = null;
+//
+//        OrderDAOImpl odi = new OrderDAOImpl();
+//        odi.getById(order_id);
+//        int size = odi.getAll().size();
+//        items = new String[5][size];
+//
+//        OrdersItemsDAOImpl oidi = new OrdersItemsDAOImpl();
+//        OrdersItems oi = oidi.getById(order_id);
+
+
+//        for(int i = 0; i < size; ++i) {
+//            items[0][i] =
+//        }
+
+
 
 
         return items;
     }
+
     public void makeOrder(Customer customer, List<Product> goods, List<Integer> quantitys, List<Long> idGoods, BigDecimal totalSumm, int statusId) {
 
         StatusOrdersDAOImpl sodi = new StatusOrdersDAOImpl();
@@ -88,12 +105,38 @@ public class Service implements ServiceInterface {
         return null;
     }
 
-    @Override
-    public int returnStatusBox(String str) {
-        int statusBox = 0;
+    public long statusOrder(int order_id){
+        String [][] items = {};
+        StatusOrdersDAOImpl sodi = new StatusOrdersDAOImpl();
+        OrderDAOImpl odi = new OrderDAOImpl();
 
-        return statusBox;
+        Order order = odi.getById(order_id);
+//        System.err.println(order.getStatus().getId());
+
+        return order.getStatus().getId();
+
     }
+
+    public List<OrdersItems> getProductsForOrder(int id_order) {
+
+        OrdersItemsDAOImpl oidi = new OrdersItemsDAOImpl();
+
+        List <OrdersItems> ordersItemses = oidi.getAll();
+        List<OrdersItems> resultList = null;
+        int count = 0;
+
+        for(int i = 0; i < ordersItemses.size(); ++i) {
+            Long x = ordersItemses.get(i).getOrder().getId();
+            if (x == id_order) {
+//                resultList.add(ordersItemses.get(i));
+                count++;
+            }
+        }
+        System.err.println(count);
+
+        return resultList;
+    }
+
 
     @Override
     public String[][] sale() {
@@ -155,10 +198,6 @@ public class Service implements ServiceInterface {
 
     }
 
-    public List<Product> getProducts() {
-        ProductDAOImpl pdi = new ProductDAOImpl();
-        return pdi.getAll();
-    }
 
     public List<Product> getProducts(int category) {
         ProductDAOImpl pdi = new ProductDAOImpl();
