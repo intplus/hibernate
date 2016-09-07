@@ -145,10 +145,7 @@ public class ProductCategoryDAOImpl extends AbstractDAO<ProductCategory> impleme
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-
-            Query query = session.createQuery("update ProductCategory set title =: title");
-//            query.setParameter("parent_product_category", productCategory.getParentProductCategory());
-            query.setParameter("title", productCategory.getTitle());
+            session.update(productCategory);
             session.getTransaction().commit();
         } catch(Exception e) {
             session.getTransaction().rollback();

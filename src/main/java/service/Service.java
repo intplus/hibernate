@@ -57,7 +57,6 @@ public class Service implements ServiceInterface {
 
         StatusOrdersDAOImpl sodi = new StatusOrdersDAOImpl();
         Status status = sodi.getById(statusId);
-        System.err.println(status.getDescription());
 
         OrdersItemsDAOImpl oidi = new OrdersItemsDAOImpl();
         OrdersItems oi = new OrdersItems();
@@ -69,20 +68,16 @@ public class Service implements ServiceInterface {
         order.setCustomer(customer);
         order.setStatus(status);
         order.setDate(new Date());
-//        for (int i = 0; i < goods.size(); ++i) {
-//            totalPrice = totalPrice.add(goods.get(i).getPrice());
-//        }
+
         order.setPrice(totalSumm);
 
         for (int i = 0; i < goods.size(); ++i) {
-//            totalPrice = totalPrice.add(goods.get(i).getPrice());
             oi.setProduct(goods.get(i));
             oi.setQuantity(quantitys.get(i));
             oi.setOrder(order);
             oidi.insert(oi);
         }
 
-//        odi.insert(order);
     }
 
     public void createStatus(Status status) {
@@ -138,6 +133,58 @@ public class Service implements ServiceInterface {
     public String getPhoneByOrder(int order_id) {
         OrderDAOImpl odi = new OrderDAOImpl();
         return odi.getById(order_id).getCustomer().getPhone();
+    }
+
+    public String getTotalPrice(int order_id) {
+        OrderDAOImpl odi = new OrderDAOImpl();
+        return odi.getById(order_id).getPrice().toString();
+    }
+
+    public void updateAll(int order_id, String[] customers, List<Product> products, List<Integer> quantitys, int statusId) {
+        OrderDAOImpl odi = new OrderDAOImpl();
+        CustomerDAOImpl cdi = new CustomerDAOImpl();
+
+        Customer customer = odi.getById(order_id).getCustomer();
+        customer.setName(customers[0]);
+        customer.setLastname(customers[1]);
+        customer.setPhone(customers[2]);
+        cdi.update(customer);
+
+        StatusOrdersDAOImpl sodi = new StatusOrdersDAOImpl();
+        Status status = sodi.getById(statusId);
+
+        Order order = odi.getById(order_id);
+
+        int count = products.size();
+        int summ = 0;
+
+        order.setStatus(status);
+//        order.setDate(new Date());
+        for (int i = 0; i < count; ++i) {
+            summ += products.get(i).getPrice().intValue() * quantitys.get(i);
+        }
+        order.setPrice(new BigDecimal(summ));
+        order.setCustomer(customer);
+        odi.update(order);
+
+        OrdersItemsDAOImpl oidi = new OrdersItemsDAOImpl();
+        OrdersItems oi = new OrdersItems();
+        List<OrdersItems> list = new ArrayList<OrdersItems>();
+        List<OrdersItems> rez = new ArrayList<OrdersItems>();
+        list = oidi.getAll();
+        for(int i = 0; i < count; ++i) {
+            if(order_id == list.get(i).getOrder().getId()) {
+                rez.add(list.get(i));
+            }
+        }
+        for(int i = 0; i < rez.size(); ++i) {
+            rez.get(i).setQuantity(quantitys.get(i));
+            rez.get(i).setProduct(products.get(i));
+
+            oidi.update(rez.get(i));
+        }
+
+
     }
 
 

@@ -61,6 +61,9 @@ public class ShopPanel extends JPanel implements Runnable{
 
         JLabel delivery = new JLabel("Delivery address: ");
         final JTextField textDelivery = new JTextField(20);
+        textDelivery.setEnabled(false);
+        textDelivery.setForeground(new Color(0, 0, 0, 30));
+        textDelivery.setText("Временно недоступен");
 
         add(name, new GridBagConstraints(0, 0, 1, 1, 1, 1,
                 GridBagConstraints.NORTH, GridBagConstraints.NONE,
@@ -237,9 +240,12 @@ public class ShopPanel extends JPanel implements Runnable{
                 if (totalSumm == 0) {
                     return;
                 }
+                int order_id = Integer.valueOf((String)stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 0));
+
+
                 s.createCustomer(textName.getText(), textSurname.getText(), textPhone.getText());
-                ArrayList products = new ArrayList();
-                ArrayList quantitys = new ArrayList();
+                ArrayList<Product> products = new ArrayList<Product>();
+                ArrayList<Integer> quantitys = new ArrayList<Integer>();
                 ArrayList goods_id = new ArrayList();
 
                 Set<Map.Entry<Product, Integer>> set = order.entrySet();
@@ -248,6 +254,12 @@ public class ShopPanel extends JPanel implements Runnable{
                     products.add(me.getKey());
                     quantitys.add(me.getValue());
                 }
+                String[] customers = new String[3];
+                customers[0] = (textName.getText());
+                customers[1] = (textSurname.getText());
+                customers[2] = (textPhone.getText());
+
+                s.updateAll(order_id, customers, products, quantitys, statusBox.getSelectedIndex() + 1);
 //                s.createOrder()
 //                o = new Order();
 //                o.setCount();
@@ -335,74 +347,8 @@ public class ShopPanel extends JPanel implements Runnable{
                 }
 
                 tfSumm.setText(String.valueOf(totalSumm));
+//                tfSumm.setText(String.valueOf(s.getTotalPrice(order_id)));
 
-
-                /*
-                Product p = s.getProducts(productsBox.getSelectedIndex()+1).get(id_goods -1);
-                int count = Integer.parseInt(tfCount.getText());
-
-                order.put(p, Integer.valueOf(count));
-                strName = textName.getText();
-
-                listOrderModel.addElement(p.getTitle() + "   " + p.getPrice() + "$   " + count + " pcs");
-                totalSumm = 0;
-
-                Set<Map.Entry<Product, Integer>> set = order.entrySet();
-                for(Map.Entry<Product, Integer> me : set) {
-                    totalSumm += me.getKey().getPrice().doubleValue() * me.getValue();
-                }
-
-                tfSumm.setText(String.valueOf(totalSumm));
-                 */
-
-
-
-              /*  String textname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 2);
-                String textsurname = (String) stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 3);
-                System.out.println(table.convertRowIndexToModel(table.getSelectedRow()));
-                System.out.println(stm.getValueAt(table.getSelectedRow(), 0));
-
-                textName.setText(textname.trim());
-                textSurname.setText(textsurname.trim());
-
-                String [][] items = new String[5][];
-
-                items = s.getOrder(
-                        Integer.valueOf((String)
-                                stm.getValueAt(
-                                        table.convertRowIndexToModel
-                                                (table.getSelectedRow()),
-                                        0)));
-
-
-                listOrderModel.clear();
-                order.clear();
-
-                Product [] productsArrayUpdate = new Product[items.length];
-
-                for (int i = 0; i < items[0].length; ++i) {
-                    productsArrayUpdate[i] = new Product();
-                    productsArrayUpdate[i].
-//                    productsArrayUpdate[i]  =
-//                            new Product(Integer.valueOf(items[0][i]),
-//                                    Integer.valueOf(items[1][i]),
-//                                    items[2][i],
-//                                    Double.parseDouble(items[4][i].trim()));
-//                    listOrderModel.addElement(productsArrayUpdate[i].getTitle().trim() + "   " + productsArrayUpdate[i].getPrice() + "$   " + items[3][i].trim() + " pcs");
-//                    order.put(productsArrayUpdate[i], Integer.valueOf(items[3][i].trim()));
-
-                }
-                String str = (String)stm.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 5);
-
-                statusBox.setSelectedIndex(s.returnStatusBox(str));
-
-                totalSumm = 0;
-                Set<Map.Entry<Product, Integer>> set = order.entrySet();
-                for(Map.Entry<Product, Integer> me : set) {
-                    totalSumm += me.getKey().getPrice().doubleValue() * me.getValue();
-                }
-                tfSumm.setText(Double.toString(totalSumm));
-                */
 
             }
         });
@@ -480,7 +426,6 @@ public class ShopPanel extends JPanel implements Runnable{
 
                 }
                 int statusId = statusBox.getSelectedIndex() + 1;
-                System.err.println("statusId = " + statusId);
 
                 s.makeOrder(customer, products, quantitys, goods_id, new BigDecimal(totalSumm), statusId);
 

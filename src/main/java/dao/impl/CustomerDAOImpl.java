@@ -130,13 +130,11 @@ public class CustomerDAOImpl extends AbstractDAO<Customer> implements CustomerDA
 //        Session session = sessionFactory.openSession();
         Session session = null;
         try{
+
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
-            Query query = session.createQuery("update Customer set name =: name, lastname =: lastname, phone =: phone");
-            query.setParameter("name", customer.getName());
-            query.setParameter("lastname", customer.getLastname());
-            query.setParameter("phone", customer.getPhone());
+            session.update(customer);
             session.getTransaction().commit();
         } catch(Exception e) {
             session.getTransaction().rollback();

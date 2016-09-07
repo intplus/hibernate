@@ -126,9 +126,7 @@ public class RoleDAOImpl extends AbstractDAO<Role> implements RoleDAO{
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-
-            Query query = session.createQuery("update Role set title =: title");
-            query.setParameter("title", role.getTitle());
+            session.update(role);
             session.getTransaction().commit();
         } catch(Exception e) {
             session.getTransaction().rollback();

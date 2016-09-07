@@ -156,12 +156,7 @@ public class ProductDAOImpl extends AbstractDAO<Product> implements ProductDAO{
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-
-            Query query = session.createQuery("update Product set product_category_id = :product_category_id, title = :title, price = :price, description = :description");
-            query.setParameter("product_category_id", product.getProductCategory());
-            query.setParameter("title", product.getTitle());
-            query.setParameter("price", product.getPrice());
-            query.setParameter("description", product.getDescription());
+            session.update(product);
             session.getTransaction().commit();
         } catch(Exception e) {
             session.getTransaction().rollback();

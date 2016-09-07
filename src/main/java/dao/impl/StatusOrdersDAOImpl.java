@@ -135,9 +135,7 @@ List<Object[]> rows = query.list();
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-
-            Query query = session.createQuery("update Status set description =: description");
-            query.setParameter("description", status.getDescription());
+            session.update(status);
             session.getTransaction().commit();
         } catch(Exception e) {
             session.getTransaction().rollback();
