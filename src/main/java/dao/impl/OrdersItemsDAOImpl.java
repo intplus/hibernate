@@ -16,8 +16,7 @@ import java.util.List;
 public class OrdersItemsDAOImpl extends AbstractDAO<OrdersItems> implements OrdersItemsDAO {
     @Override
     public void delete(int id) {
-//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-//        Session session = sessionFactory.openSession();
+
         Session session = null;
         try{
             session = HibernateUtil.getSessionFactory().openSession();
@@ -58,8 +57,7 @@ public class OrdersItemsDAOImpl extends AbstractDAO<OrdersItems> implements Orde
 
     @Override
     public List<OrdersItems> getAll() {
-//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-//        Session session = sessionFactory.openSession();
+
         Session session = null;
         List<OrdersItems> ordersItemses = null;
 
@@ -79,8 +77,7 @@ public class OrdersItemsDAOImpl extends AbstractDAO<OrdersItems> implements Orde
 
     @Override
     public OrdersItems getById(int id) {
-//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-//        Session session = sessionFactory.openSession();
+
         Session session = null;
         OrdersItems ordersItems = null;
 
