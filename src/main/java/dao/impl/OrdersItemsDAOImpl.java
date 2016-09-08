@@ -24,8 +24,6 @@ public class OrdersItemsDAOImpl extends AbstractDAO<OrdersItems> implements Orde
 
             Query query = session.createQuery("delete from OrdersItems where id =: id");
             query.setParameter("id", id);
-//            int result = query.executeUpdate();
-
 
             session.getTransaction().commit();
         } catch(Exception e) {

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - shop@localhost" uuid="31263c7e-05e2-4158-9558-7bc005f9727f">
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>shop.pg_catalog shop.public</schema-pattern>
+      <default-schemas>shop.public</default-schemas>
+    </data-source>
+    <data-source name="PostgreSQL - hibernate@localhost" uuid="e243c1eb-c411-4221-8da3-8f96d32340b9">
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>hibernate.pg_catalog hibernate.public</schema-pattern>
+      <default-schemas>hibernate.public</default-schemas>
+    </data-source>
+    <data-source name="hibernate.cfg.xml/Hibernate" uuid="da664c45-bcfa-486f-83e8-442605295ae4">
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>hibernate.pg_catalog hibernate.public</schema-pattern>
+      <default-schemas>hibernate.public</default-schemas>
+    </data-source>
+  </component>
+</project>

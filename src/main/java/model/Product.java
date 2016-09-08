@@ -13,7 +13,7 @@ public class Product extends Model {
     private static final long serialVersionUID = -8772417047817621137L;
 
     @NotNull(message = "Field title is null")
-    @Size(min = 4, max = 16, message = "min = 4, max = 16")
+    @Size(min = 4, max = 32, message = "min = 4, max = 32")
     @Column(name = "title")
     private String title;
 
