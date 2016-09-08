@@ -1,12 +1,12 @@
 -- #development #IDEA
 -- Make sure your connection now
--- is to database "crm-crius" !
+-- is to database "hibernate" !
 
 CREATE SCHEMA IF NOT EXISTS public;
 SET SEARCH_PATH TO public;
 
 CREATE TABLE IF NOT EXISTS customer (
-  id BIGINT PRIMARY KEY NOT NULL,
+  id BIGINT PRIMARY KEY NOT NULL DEFAULT nextval('customer_id_seq'::regclass),
   lastname CHARACTER VARYING(255),
   name CHARACTER VARYING(255),
   phone CHARACTER VARYING(255)
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS customer_role (
 
 
 CREATE TABLE IF NOT EXISTS order2 (
-  id BIGINT PRIMARY KEY NOT NULL,
+  id BIGINT PRIMARY KEY NOT NULL DEFAULT nextval('order_id_seq'::regclass),
   date TIMESTAMP WITHOUT TIME ZONE,
   price NUMERIC(19,2),
   customer_id BIGINT,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS order2 (
 
 
 CREATE TABLE IF NOT EXISTS orders_items (
-  id BIGINT PRIMARY KEY NOT NULL,
+  id BIGINT PRIMARY KEY NOT NULL DEFAULT nextval('orders_items_id_seq'::regclass),
   qnt INTEGER,
   order_id BIGINT,
   product_id BIGINT,
